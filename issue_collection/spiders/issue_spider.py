@@ -7,7 +7,12 @@ from issue_collection.items import IssueItem
 
 per_page = 100
 #auth_token = '39babb1cef98c0f50a36d1fb5caaec3c824c6fdf'
-auth_token = '6feedee5cb0fcca40f1043f96ff54f5fde874804'
+#auth_token = '6feedee5cb0fcca40f1043f96ff54f5fde874804'
+auth_token = '517119d1f57cd208bd68da1f7869dd1374bb8f48'
+
+headers = {
+    "Authorization": "Basic $userPassBase64"
+}
 
 class IssueCollectionSpider(scrapy.Spider):
     name = "issue_collection"
@@ -20,7 +25,7 @@ class IssueCollectionSpider(scrapy.Spider):
         issues = json.loads(response.body)
         for issue in issues:
             issue_url = Href(issue['url'])({'access_token': auth_token})
-            yield scrapy.Request(issue_url, callback=self.parse_issue)
+            yield scrapy.Request(issue_url, callback=self.parse_issue, )
         if len(issues) < per_page:
             return
         parsed_url = urlparse(response.url)
