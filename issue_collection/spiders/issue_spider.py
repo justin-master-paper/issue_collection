@@ -19,7 +19,12 @@ class IssueCollectionSpider(scrapy.Spider):
     name = "issue_collection"
     allowed_domains = ["api.github.com"]
     start_urls = [
-        'https://api.github.com/repos/ecomfe/echarts/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token)
+        'https://api.github.com/repos/ecomfe/echarts/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token),
+        'https://api.github.com/repos/hexojs/hexo/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token),
+        'https://api.github.com/repos/webpy/webpy/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token),
+        'https://api.github.com/repos/moment/moment/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token),
+        #'https://api.github.com/repos/mbostock/d3/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token),
+        'https://api.github.com/repos/jadejs/jade/issues?state=all&page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token),
         #'https://api.github.com/repos/ecomfe/echarts/issues?page=%s&per_page=%s' % (1, per_page)
     ]
 
