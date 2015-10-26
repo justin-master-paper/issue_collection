@@ -6,12 +6,13 @@ from urlparse import urlparse, parse_qs
 from issue_collection.items import IssueItem
 
 per_page = 100
-#auth_token = '39babb1cef98c0f50a36d1fb5caaec3c824c6fdf'
-#auth_token = '6feedee5cb0fcca40f1043f96ff54f5fde874804'
-auth_token = '517119d1f57cd208bd68da1f7869dd1374bb8f48'
+#auth_token = '517119d1f57cd208bd68da1f7869dd1374bb8f48'
+auth_token = 'c1730619372d3306343d67a16e748b4bfaa31fd9'
+user = 'justin-sunflower'
+password = 'yeyuangithub217'
 
 headers = {
-    "Authorization": "Basic $userPassBase64"
+    "Authorization": "Basic %s:%s" % (user, password)
 }
 
 class IssueCollectionSpider(scrapy.Spider):
@@ -19,13 +20,16 @@ class IssueCollectionSpider(scrapy.Spider):
     allowed_domains = ["api.github.com"]
     start_urls = [
         'https://api.github.com/repos/ecomfe/echarts/issues?page=%s&per_page=%s&access_token=%s' % (1, per_page,auth_token)
+        #'https://api.github.com/repos/ecomfe/echarts/issues?page=%s&per_page=%s' % (1, per_page)
     ]
 
     def parse(self, response):
         issues = json.loads(response.body)
         for issue in issues:
             issue_url = Href(issue['url'])({'access_token': auth_token})
-            yield scrapy.Request(issue_url, callback=self.parse_issue, )
+            #issue_url = Href(issue['url'])()
+            yield scrapy.Request(issue_url, callback=self.parse_issue)
+            #yield scrapy.Request(issue_url, callback=self.parse_issue, headers=headers)
         if len(issues) < per_page:
             return
         parsed_url = urlparse(response.url)
@@ -35,6 +39,7 @@ class IssueCollectionSpider(scrapy.Spider):
         url = Href(base_url)(query_params)
         print 'url:',url
         yield scrapy.Request(url, callback=self.parse)
+        #yield scrapy.Request(url, callback=self.parse, headers=headers)
 
     def parse_issue(self, response):
         issue = json.loads(response.body)
